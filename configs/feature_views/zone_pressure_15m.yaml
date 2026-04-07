@@ -1,0 +1,39 @@
+name: zone_pressure_15m
+version: v1
+description: Zone-level inflow, outflow, and pressure signals
+entity_keys:
+  - zone_id
+  - ts_15m
+event_timestamp_col: ts_15m
+source_tables:
+  - curated.zone_activity_15m
+owner: mobility-ml
+ttl: 2h
+freshness_sla: 30m
+tags:
+  - zone
+  - pressure
+  - rebalancing
+feature_schema:
+  - name: zone_inflow_lag_1
+    dtype: double
+    description: Previous bucket inflow to zone
+  - name: zone_outflow_lag_1
+    dtype: double
+    description: Previous bucket outflow from zone
+  - name: zone_net_flow_lag_1
+    dtype: double
+    description: Inflow minus outflow in previous bucket
+  - name: zone_activity_rolling_mean_4
+    dtype: double
+    description: Rolling mean activity over previous hour
+  - name: station_share_of_zone_activity
+    dtype: double
+    description: Share of current station activity within zone activity
+transformation_entrypoint: features.transforms.zone_pressure_15m:build
+backfill_start: "2026-01-01"
+offline_store:
+  format: parquet
+  base_path: data/offline/zone_pressure_15m
+online_store:
+  snapshot_path: data/online_snapshots/zone_pressure_15m_latest.parquet

@@ -1,0 +1,26 @@
+name: station
+description: Physical station or virtual pickup node in the mobility network
+entity_keys:
+  - station_id
+primary_key: station_id
+attributes:
+  - name: station_id
+    dtype: string
+    required: true
+  - name: station_name
+    dtype: string
+    required: false
+  - name: lat
+    dtype: double
+    required: false
+  - name: lon
+    dtype: double
+    required: false
+  - name: zone_id
+    dtype: string
+    required: false
+ownership:
+  owner: mobility-platform
+tags:
+  - mobility
+  - station

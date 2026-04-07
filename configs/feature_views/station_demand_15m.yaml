@@ -1,0 +1,42 @@
+name: station_demand_15m
+version: v1
+description: Historical demand features at station x 15-minute grain
+entity_keys:
+  - station_id
+  - ts_15m
+event_timestamp_col: ts_15m
+source_tables:
+  - curated.station_activity_15m
+owner: mobility-ml
+ttl: 2h
+freshness_sla: 30m
+tags:
+  - station
+  - demand
+  - forecasting
+feature_schema:
+  - name: rides_started_lag_1
+    dtype: double
+    description: Ride starts in previous 15-minute bucket
+  - name: rides_started_lag_4
+    dtype: double
+    description: Ride starts in previous 4 buckets
+  - name: rides_started_lag_96
+    dtype: double
+    description: Ride starts in same station 24 hours earlier
+  - name: rides_started_rolling_mean_4
+    dtype: double
+    description: Mean ride starts over previous 4 buckets
+  - name: rides_started_rolling_mean_96
+    dtype: double
+    description: Mean ride starts over previous 96 buckets
+  - name: rides_ended_lag_1
+    dtype: double
+    description: Ride ends in previous 15-minute bucket
+transformation_entrypoint: features.transforms.station_demand_15m:build
+backfill_start: "2026-01-01"
+offline_store:
+  format: parquet
+  base_path: data/offline/station_demand_15m
+online_store:
+  snapshot_path: data/online_snapshots/station_demand_15m_latest.parquet

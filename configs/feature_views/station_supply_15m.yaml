@@ -1,0 +1,39 @@
+name: station_supply_15m
+version: v1
+description: Supply and saturation features at station x 15-minute grain
+entity_keys:
+  - station_id
+  - ts_15m
+event_timestamp_col: ts_15m
+source_tables:
+  - curated.station_status_15m
+owner: mobility-ml
+ttl: 1h
+freshness_sla: 15m
+tags:
+  - station
+  - supply
+  - operations
+feature_schema:
+  - name: available_vehicles
+    dtype: double
+    description: Vehicles available at station
+  - name: available_docks
+    dtype: double
+    description: Docks available at station
+  - name: empty_ratio
+    dtype: double
+    description: Fraction of capacity currently empty
+  - name: saturation_ratio
+    dtype: double
+    description: Fraction of capacity currently occupied
+  - name: net_vehicle_balance
+    dtype: double
+    description: Vehicles minus docks
+transformation_entrypoint: features.transforms.station_supply_15m:build
+backfill_start: "2026-01-01"
+offline_store:
+  format: parquet
+  base_path: data/offline/station_supply_15m
+online_store:
+  snapshot_path: data/online_snapshots/station_supply_15m_latest.parquet

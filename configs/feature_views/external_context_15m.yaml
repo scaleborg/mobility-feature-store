@@ -1,0 +1,40 @@
+name: external_context_15m
+version: v1
+description: External context aligned to 15-minute mobility buckets
+entity_keys:
+  - zone_id
+  - ts_15m
+event_timestamp_col: ts_15m
+source_tables:
+  - curated.weather_15m
+  - curated.events_15m
+owner: mobility-ml
+ttl: 2h
+freshness_sla: 30m
+tags:
+  - external
+  - weather
+  - events
+feature_schema:
+  - name: temperature_c
+    dtype: double
+    description: Air temperature in Celsius
+  - name: rain_intensity
+    dtype: double
+    description: Rainfall intensity aligned to bucket
+  - name: wind_speed
+    dtype: double
+    description: Wind speed aligned to bucket
+  - name: event_pressure_score
+    dtype: double
+    description: Density-adjusted event pressure score
+  - name: service_disruption_flag
+    dtype: boolean
+    description: Known disruption indicator
+transformation_entrypoint: features.transforms.external_context_15m:build
+backfill_start: "2026-01-01"
+offline_store:
+  format: parquet
+  base_path: data/offline/external_context_15m
+online_store:
+  snapshot_path: data/online_snapshots/external_context_15m_latest.parquet

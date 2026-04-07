@@ -1,0 +1,15 @@
+name: time_bucket_15m
+description: Standardized 15-minute timestamp bucket for mobility features
+entity_keys:
+  - ts_15m
+primary_key: ts_15m
+attributes:
+  - name: ts_15m
+    dtype: timestamp
+    required: true
+ownership:
+  owner: mobility-platform
+tags:
+  - time
+  - bucket
+  - 15m

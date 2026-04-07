@@ -1,0 +1,11 @@
+.DS_Store
+.env
+.env.*
+CLAUDE.md
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+data/
+*.db

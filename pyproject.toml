@@ -1,0 +1,32 @@
+[project]
+name = "mobility-feature-store"
+version = "0.1.0"
+description = "Custom feature store for mobility ML with point-in-time retrieval and feature governance"
+authors = [{ name = "Adrien L" }]
+requires-python = ">=3.11"
+
+dependencies = [
+    "pydantic>=2.0",
+    "pyyaml",
+    "duckdb",
+    "pandas",
+    "pyarrow",
+    "fastapi",
+    "uvicorn",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+    "black",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.black]
+line-length = 100

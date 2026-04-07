@@ -1,0 +1,40 @@
+name: temporal_context_15m
+version: v1
+description: Time and calendar context at 15-minute grain
+entity_keys:
+  - ts_15m
+event_timestamp_col: ts_15m
+source_tables:
+  - curated.calendar_15m
+owner: mobility-ml
+ttl: 30d
+freshness_sla: 1d
+tags:
+  - temporal
+  - calendar
+feature_schema:
+  - name: hour_of_day
+    dtype: int
+    description: Hour component of timestamp
+  - name: day_of_week
+    dtype: int
+    description: Day of week from 0 to 6
+  - name: is_weekend
+    dtype: boolean
+    description: Whether timestamp falls on weekend
+  - name: is_holiday
+    dtype: boolean
+    description: Whether timestamp falls on holiday
+  - name: is_rush_hour
+    dtype: boolean
+    description: Whether timestamp falls in commute peaks
+  - name: daypart
+    dtype: string
+    description: Morning midday evening night bucket
+transformation_entrypoint: features.transforms.temporal_context_15m:build
+backfill_start: "2026-01-01"
+offline_store:
+  format: parquet
+  base_path: data/offline/temporal_context_15m
+online_store:
+  snapshot_path: data/online_snapshots/temporal_context_15m_latest.parquet

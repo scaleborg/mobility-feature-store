@@ -1,0 +1,17 @@
+name: zone
+description: Spatial aggregate region used for area-level feature computation
+entity_keys:
+  - zone_id
+primary_key: zone_id
+attributes:
+  - name: zone_id
+    dtype: string
+    required: true
+  - name: zone_name
+    dtype: string
+    required: false
+ownership:
+  owner: mobility-platform
+tags:
+  - mobility
+  - zone

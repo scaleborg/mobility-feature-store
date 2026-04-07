@@ -1,0 +1,17 @@
+environment: local
+
+storage:
+  offline_root: data/offline
+  online_snapshot_root: data/online_snapshots
+  metadata_root: data/metadata
+
+metadata_store:
+  type: sqlite
+  path: data/metadata/feature_registry.db
+
+execution:
+  engine: duckdb_local
+
+validation:
+  fail_on_error: true
+  store_reports: true
